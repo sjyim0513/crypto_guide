@@ -1,0 +1,92 @@
+spring:
+  application:
+    name: crypto-guide-api
+
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/crypto_guide
+    username: ${DB_USERNAME:postgres}
+    password: "ysj10301."
+    driver-class-name: org.postgresql.Driver
+
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # Jackson Configuration
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+# Server Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# CORS Configuration
+cors:
+  allowed-origins: http://localhost:3000
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: "*"
+  allow-credentials: true
+
+# External API Configuration
+external:
+  coingecko:
+    base-url: https://api.coingecko.com/api/v3
+    api-key: ${COINGECKO_API_KEY:}
+
+  coinmarketcap:
+    base-url: https://pro-api.coinmarketcap.com/v1
+    api-key: ${COINMARKETCAP_API_KEY:}
+
+# OpenAI Configuration
+openai:
+  api-key: ${OPENAI_API_KEY:}
+  model: gpt-4o-mini
+  max-tokens: 500
+
+# Scheduler Configuration
+scheduler:
+  price-update:
+    cron: "0 */5 * * * *" # Every 5 minutes
+  news-fetch:
+    cron: "0 */30 * * * *" # Every 30 minutes
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.cryptoguide: DEBUG
+    org.hibernate.SQL: DEBUG
+
+---
+# Development Profile
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:h2:mem:cryptoguide
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect

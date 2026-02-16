@@ -1,0 +1,386 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   CryptoGuide — FnGuide × CoinPickle Hybrid
+   Primary: #F26649 (Coral Orange)
+   ============================================ */
+
+:root {
+  /* === Primary Brand === */
+  --primary: #F26649;
+  --primary-light: #F4845F;
+  --primary-dark: #D9512F;
+  --primary-50: #FEF2F0;
+  --primary-100: #FDE0DA;
+
+  /* === Secondary (데이터 강조 - 파란 계열) === */
+  --secondary: #2D6ADF;
+  --secondary-light: #5B8AEA;
+  --secondary-dark: #1E4FAF;
+
+  /* === Accent (보조 강조 - 보라) === */
+  --accent: #7C5CFC;
+  --accent-light: #9B82FD;
+  --accent-dark: #5A3AD8;
+
+  /* === Background === */
+  --bg-body: #F4F5F7;
+  --bg-white: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-muted: #F8F8FA;
+  --bg-hover: #F0F1F4;
+  --bg-section: #FAFAFA;
+
+  /* === Text === */
+  --text-primary: #1B1D21;
+  --text-secondary: #555960;
+  --text-muted: #94979E;
+  --text-light: #B5B8BF;
+  --text-white: #FFFFFF;
+
+  /* === Semantic === */
+  --up: #E22926;           /* 상승 - 빨강 (한국 주식 관례) */
+  --down: #2D6ADF;         /* 하락 - 파랑 */
+  --success: #18A058;
+  --warning: #F0A020;
+  --danger: #E22926;
+  --info: #2D6ADF;
+
+  /* === Border === */
+  --border: #E4E6EA;
+  --border-light: #EEEFF2;
+  --border-dark: #D0D2D6;
+
+  /* === Shadow === */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.08);
+
+  /* === Misc === */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  color: var(--text-primary);
+  background: var(--bg-body);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ============================================
+   Scrollbar
+   ============================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #CCC; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #AAA; }
+
+/* ============================================
+   FnGuide-style Cards
+   ============================================ */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-header {
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-header h2,
+.card-header h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-body { padding: 16px; }
+
+/* ============================================
+   FnGuide-style Tables
+   ============================================ */
+.table-fn {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table-fn thead th {
+  background: #F6F7F9;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 12px;
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-dark);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.table-fn tbody td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-primary);
+}
+
+.table-fn tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+/* 2열 정보 테이블 (FnGuide Snapshot 스타일) */
+.table-info {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table-info th {
+  background: #F6F7F9;
+  color: var(--text-secondary);
+  font-weight: 600;
+  padding: 7px 12px;
+  text-align: left;
+  border: 1px solid var(--border);
+  width: 25%;
+  font-size: 12px;
+}
+
+.table-info td {
+  padding: 7px 12px;
+  text-align: right;
+  border: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+.text-up { color: var(--up); }
+.text-down { color: var(--down); }
+.text-flat { color: var(--text-muted); }
+
+.mono-number {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* Section title with left border (FnGuide 스타일) */
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 16px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.badge-primary {
+  background: var(--primary-100);
+  color: var(--primary-dark);
+}
+
+.badge-secondary {
+  background: #E8EDFB;
+  color: var(--secondary);
+}
+
+.badge-accent {
+  background: #EDE7F6;
+  color: var(--accent);
+}
+
+.badge-up {
+  background: #FDECEA;
+  color: var(--up);
+}
+
+.badge-down {
+  background: #E8EDFB;
+  color: var(--down);
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  padding: 7px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover { background: var(--primary-dark); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+/* Live Indicator */
+.live-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ============================================
+   FnGuide-style Metric Cards
+   ============================================ */
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.metric-card .label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.metric-card .value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-card .sub {
+  font-size: 12px;
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+/* ============================================
+   Tab navigation (FnGuide 탭)
+   ============================================ */
+.tab-nav {
+  display: flex;
+  border-bottom: 2px solid var(--border);
+  gap: 0;
+}
+
+.tab-nav button {
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.15s;
+}
+
+.tab-nav button:hover { color: var(--text-primary); }
+
+.tab-nav button.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* ============================================
+   Page container
+   ============================================ */
+.page-container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ============================================
+   Responsive: Mobile bottom nav
+   ============================================ */
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-white);
+  border-top: 1px solid var(--border);
+  z-index: 50;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
