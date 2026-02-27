@@ -45,6 +45,12 @@ dependencies {
     
     // Markdown Parser
     implementation 'com.vladsch.flexmark:flexmark-all:0.64.8'
+
+    // HTML Parsing (crawling)
+    implementation 'org.jsoup:jsoup:1.17.2'
+
+    // Browser automation for JS-rendered pages
+    implementation 'com.microsoft.playwright:playwright:1.51.0'
     
     // Scheduling
     implementation 'org.springframework.boot:spring-boot-starter-quartz'

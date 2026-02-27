@@ -47,6 +47,35 @@ external:
   coinmarketcap:
     base-url: https://pro-api.coinmarketcap.com/v1
     api-key: ${COINMARKETCAP_API_KEY:}
+  exchange:
+    bithumb:
+      base-url: https://api.bithumb.com
+      notice-count: 20
+    gopax:
+      base-url: https://api.gopax.co.kr
+      notice-limit: 20
+      notice-page: 0
+      notice-format: 1
+      notice-url-template: "https://www.gopax.co.kr/notice/detail?id=%s"
+    crawler:
+      user-agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+      playwright:
+        headless: true
+        navigate-timeout-ms: 20000
+        network-idle-timeout-ms: 8000
+        extra-wait-ms: 1200
+      upbit:
+        base-url: https://upbit.com
+        notice-path: /service_center/notice
+        limit: 20
+      coinone:
+        base-url: https://coinone.co.kr
+        notice-path: /info/notice
+        limit: 20
+      korbit:
+        base-url: https://www.korbit.co.kr
+        notice-path: /notice/
+        limit: 20
 
 # OpenAI Configuration
 openai:
@@ -60,6 +89,11 @@ scheduler:
     cron: "0 */5 * * * *" # Every 5 minutes
   news-fetch:
     cron: "0 */30 * * * *" # Every 30 minutes
+  exchange:
+    notice:
+      cron: "0 */5 * * * *" # Every 5 minutes
+    warning:
+      cron: "30 */5 * * * *" # Every 5 minutes (offset 30s)
 
 # Logging
 logging:

@@ -51,3 +51,62 @@ CREATE INDEX idx_warning_end_date ON warning (end_date);
 COMMENT ON TABLE warning IS '거래소별 마켓 경보 (가격 급등락, 거래량 급등, 입금량 급등, 시세차이, 소수계정 집중 등)';
 COMMENT ON COLUMN warning.warning_type IS 'PRICE_SUDDEN_FLUCTUATION, PRICE_DIFFERENCE_HIGH, SPECIFIC_ACCOUNT_HIGH_TRANSACTION, TRADING_VOLUME_SUDDEN_FLUCTUATION, DEPOSIT_AMOUNT_SUDDEN_FLUCTUATION';
 COMMENT ON COLUMN warning.warning_step IS 'CAUTION(주의), WARNING(경고), DANGER(위험)';
+
+
+-- ============================================================
+-- V2
+
+-- =========================================================
+-- notice: 거래소 공지
+-- warning: 거래소 경보
+-- =========================================================
+
+CREATE TABLE IF NOT EXISTS notice (
+    id              BIGSERIAL PRIMARY KEY,
+    exchange        VARCHAR(20) NOT NULL,  -- bithumb, gopax, upbit, coinone, korbit
+    external_id     VARCHAR(200) NOT NULL, -- 거래소 고유 ID (없으면 URL)
+    title           VARCHAR(500) NOT NULL,
+    url             VARCHAR(1000) NOT NULL,
+    categories      JSONB,                 -- 빗썸 categories 배열
+    notice_type     SMALLINT,              -- 고팍스 type(0/1/2/3)
+    published_at    TIMESTAMPTZ,
+    modified_at     TIMESTAMPTZ,
+    content         TEXT,                  -- 추후 본문 수집
+    summary         TEXT,                  -- 추후 LLM 요약
+    raw_payload     JSONB NOT NULL DEFAULT '{}'::jsonb,
+    first_seen_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    last_seen_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT uq_notice_exchange_external UNIQUE (exchange, external_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_notice_exchange_published
+    ON notice (exchange, published_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_notice_created_at
+    ON notice (created_at DESC);
+
+
+CREATE TABLE IF NOT EXISTS warning (
+    id              BIGSERIAL PRIMARY KEY,
+    exchange        VARCHAR(20) NOT NULL,   -- 현재 bithumb
+    market          VARCHAR(50) NOT NULL,   -- KRW-BTC 등
+    warning_type    VARCHAR(64) NOT NULL,   -- PRICE_SUDDEN_FLUCTUATION ...
+    warning_step    VARCHAR(20) NOT NULL,   -- CAUTION/WARNING/DANGER
+    end_at          TIMESTAMPTZ,
+    raw_payload     JSONB NOT NULL DEFAULT '{}'::jsonb,
+    first_seen_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    last_seen_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT uq_warning_dedup UNIQUE (exchange, market, warning_type, warning_step, end_at)
+);
+
+CREATE INDEX IF NOT EXISTS idx_warning_exchange_market
+    ON warning (exchange, market);
+
+CREATE INDEX IF NOT EXISTS idx_warning_end_at
+    ON warning (end_at);
